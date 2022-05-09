@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BasicAndroidProject</string>
+    <string name="input_text">텍스트를 입력하세요</string>
+    <string name="action_add">add</string>
 </resources>
