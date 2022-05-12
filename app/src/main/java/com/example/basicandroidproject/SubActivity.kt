@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.basicandroidproject.databinding.ActivityMainBinding
 import com.example.basicandroidproject.databinding.ActivitySubBinding
 import com.example.basicandroidproject.databinding.ActivitySubBindingImpl
@@ -14,15 +16,25 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SubActivity : AppCompatActivity() {
     private val mViewModel : BaseViewModel by viewModels()
+    private lateinit var binding : ActivitySubBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivitySubBinding>(this, R.layout.activity_sub)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_sub)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
 
+        binding.recyclerview.apply {
+            this.adapter = ItemAdapter()
+            this.layoutManager = LinearLayoutManager(this@SubActivity)
+        }
+    }
+
+    fun onClick(view:View){
+        if(binding.editText.text!=null)
+            (binding.recyclerview.adapter as ItemAdapter).updateAdapter(binding.editText.text.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
